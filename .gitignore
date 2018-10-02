@@ -9,6 +9,7 @@
 *.hex
 *.bin
 *.map
+*.elf
 *.o
 *.i
 *.zigbee
