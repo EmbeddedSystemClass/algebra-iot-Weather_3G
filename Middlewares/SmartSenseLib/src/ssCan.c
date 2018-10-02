@@ -16,10 +16,6 @@
 #include "task.h"
 #include "string.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*------------------------- MACRO DEFINITIONS --------------------------------*/
 
 /*------------------------- TYPE DEFINITIONS ---------------------------------*/
@@ -264,9 +260,6 @@ void CAN1_SCE_IRQHandler(void)
   HAL_CAN_IRQHandler(&hcan);
 }
 
-#ifdef __cplusplus
-}
-#endif
 
 
 

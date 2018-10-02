@@ -45,8 +45,6 @@ int32_t establishConnectionWithAP();
 int32_t checkInternetConnection();
 void SimpleLinkNetAppEventHandler(SlNetAppEvent_t *pNetAppEvent);
 void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent);
-int32_t initializeAppVariables();
-int32_t configureSimpleLinkToDefaultState();
 void SimpleLinkPingReport(SlPingReport_t *pPingReport);
 int32_t checkLanConnection();
 void SimpleLinkGeneralEventHandler(SlDeviceEvent_t *pDevEvent);

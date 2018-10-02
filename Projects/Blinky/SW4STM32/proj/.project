@@ -36,27 +36,32 @@
 			<locationURI>PARENT-4-PROJECT_LOC/Middlewares</locationURI>
 		</link>
 		<link>
-			<name>Application/freertos.c</name>
+			<name>Application/Inc</name>
+			<type>2</type>
+			<location>D:/work/development/stm32/algebra/algebra-ocelot/Projects/Blinky/Inc</location>
+		</link>
+		<link>
+			<name>Application/Src/freertos.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/freertos.c</locationURI>
 		</link>
 		<link>
-			<name>Application/main.c</name>
+			<name>Application/Src/main.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/main.c</locationURI>
 		</link>
 		<link>
-			<name>Application/startup_stm32f437xx.s</name>
+			<name>Application/Src/startup_stm32f437xx.s</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/startup_stm32f437xx.s</locationURI>
 		</link>
 		<link>
-			<name>Application/stm32f4xx_hal_msp.c</name>
+			<name>Application/Src/stm32f4xx_hal_msp.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/stm32f4xx_hal_msp.c</locationURI>
 		</link>
 		<link>
-			<name>Application/stm32f4xx_it.c</name>
+			<name>Application/Src/stm32f4xx_it.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/stm32f4xx_it.c</locationURI>
 		</link>

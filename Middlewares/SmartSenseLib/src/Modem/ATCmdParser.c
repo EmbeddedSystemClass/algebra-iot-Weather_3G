@@ -114,7 +114,7 @@ void atparser_flush(ATCmdParser *self)
 
 
 // read/write handling with timeouts
-int32_t atparser_write(ATCmdParser *self, const char *data, int size)
+int atparser_write(ATCmdParser *self, const char *data, int size)
 {
   return hal_modem_write(self->_fd, (const uint8_t *)data, size);
 }

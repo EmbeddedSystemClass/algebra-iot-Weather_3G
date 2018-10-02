@@ -266,7 +266,7 @@ void SimpleLinkWlanEventHandler(SlWlanEvent_t *pWlanEvent)
 
     \return     0 on success, negative error-code on error
 */
-int32_t initializeAppVariables()
+static int32_t initializeAppVariables()
 {
     g_Status = 0;
     g_PingPacketsRecv = 0;
