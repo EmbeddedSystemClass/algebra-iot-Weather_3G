@@ -41,6 +41,16 @@
 			<location>D:/work/development/stm32/algebra/algebra-ocelot/Projects/Blinky/Inc</location>
 		</link>
 		<link>
+			<name>Application/Src/CliCommonCmds.c</name>
+			<type>1</type>
+			<location>D:/work/development/stm32/algebra/algebra-ocelot/Projects/Blinky/Src/CliCommonCmds.c</location>
+		</link>
+		<link>
+			<name>Application/Src/Version.c</name>
+			<type>1</type>
+			<location>D:/work/development/stm32/algebra/algebra-ocelot/Projects/Blinky/Src/Version.c</location>
+		</link>
+		<link>
 			<name>Application/Src/freertos.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/freertos.c</locationURI>
@@ -64,6 +74,11 @@
 			<name>Application/Src/stm32f4xx_it.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/stm32f4xx_it.c</locationURI>
+		</link>
+		<link>
+			<name>Application/Src/system_stm32f4xx.c</name>
+			<type>1</type>
+			<location>D:/work/development/stm32/algebra/algebra-ocelot/Projects/Blinky/Src/system_stm32f4xx.c</location>
 		</link>
 	</linkedResources>
 </projectDescription>

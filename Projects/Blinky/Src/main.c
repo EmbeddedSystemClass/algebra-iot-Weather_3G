@@ -47,16 +47,32 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <time.h>
+#include <assert.h>
+
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "bsp.h"
+#include "ssUart.h"
+#include "ssCli.h"
+#include "CliCommonCmds.h"
+#include "ssSysCom.h"
+#include "ssSupervision.h"
+#include "ssLogging.h"
+#include "ssDevMan.h"
+    
+#include "Version.h"
 
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-osThreadId defaultTaskHandle;
+int32_t stdin_uart_handle;
+int32_t stdout_uart_handle;
+int32_t stderr_uart_handle;
+osThreadId ledTaskHandle;
+osThreadId watchdogTaskHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -64,8 +80,10 @@ osThreadId defaultTaskHandle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-void StartDefaultTask(void const * argument);
+void LedTask(void const * argument);
+void WatchdogTask(void const * argument);
+
+void stdio_init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -90,49 +108,31 @@ int main(void)
   /* MCU Configuration----------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  /* USER CODE BEGIN 2 */
-
-  /* USER CODE END 2 */
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
+  BSP_init();
+  
+  /* Init library modules */
+  ssUartInit(BSP_UART_COUNT);
+  ssLoggingInit();
+  stdio_init();
+  ssSysComInit();
+  
+  ssLoggingPrint(ESsLoggingLevel_Info, 0, "%s running on %s, version %s, built %s by %s", app_name, board_name, build_version, build_date, build_author);
+  ssLoggingPrint(ESsLoggingLevel_Info, 0, "Initializing tasks...");
+  ssCliUartConsoleInit();
+  
+  /* start CLI console */
+  //ssCliUartConsoleStart();
+  //CliCommonCmdsInit();
+    
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  osThreadDef(Task, LedTask, osPriorityNormal, 0, 128);
+  ledTaskHandle = osThreadCreate(osThread(Task), NULL);
+  
+  osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 240);
+  watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
- 
+  ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start OS.");
 
   /* Start scheduler */
   osKernelStart();
@@ -153,80 +153,62 @@ int main(void)
 
 }
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
-void SystemClock_Config(void)
+void stdio_init(void)
 {
+  ssUartConfigType config;
 
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-
-    /**Configure the main internal regulator output voltage 
-    */
-  __HAL_RCC_PWR_CLK_ENABLE();
-
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure the Systick interrupt time 
-    */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
-
-    /**Configure the Systick 
-    */
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-
-  /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+  config.baudrate = STDOUT_UART_BAUDRATE;
+  config.FlowControl = UART_HWCONTROL_NONE;
+  config.Mode = UART_MODE_TX_RX;
+  config.Parity = UART_PARITY_NONE;
+  config.StopBits = UART_STOPBITS_1;
+  config.WordLength = UART_WORDLENGTH_8B;
+  
+  stdout_uart_handle = ssUartOpen(STDOUT_UART, &config, STDOUT_USART_BUFFER_SIZE);
+  configASSERT(stdout_uart_handle >= 0);
+  stderr_uart_handle = stdout_uart_handle;
 }
 
-/* USER CODE BEGIN 4 */
 
+/* USER CODE BEGIN 4 */
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used 
-  * @retval None
-  */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* LedTask function */
+void LedTask(void const * argument)
 {
 
-  /* USER CODE BEGIN 5 */
+  ssLoggingPrint(ESsLoggingLevel_Info, 0, "LedTask started");
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Blinky is alive I");
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
+    osDelay(1000);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_12);
+    osDelay(1000);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_13);
+    osDelay(1000);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
+    osDelay(1000);
+	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_12);
+	osDelay(1000);
+	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_13);
+	osDelay(1000);
+    ssLoggingPrint(ESsLoggingLevel_Info, 0, "Blinky is alive II");
   }
-  /* USER CODE END 5 */ 
+}
+
+
+void WatchdogTask(void const * argument)
+{
+
+  ssLoggingPrint(ESsLoggingLevel_Info, 0, "WatchdogTask started");
+  /* Infinite loop */
+  for(;;)
+  {
+    HAL_GPIO_TogglePin(BSP_WD_GPIO_PORT, BSP_WD_PIN);
+    osDelay(100);
+  }
 }
 
 /**
