@@ -38,7 +38,7 @@
 		<link>
 			<name>Application/Inc</name>
 			<type>2</type>
-			<location>D:/work/development/stm32/algebra/algebra-ocelot/Projects/Blinky/Inc</location>
+			<location>PARENT-2-PROJECT_LOC/Inc</location>
 		</link>
 		<link>
 			<name>Application/Src/CliCommonCmds.c</name>
