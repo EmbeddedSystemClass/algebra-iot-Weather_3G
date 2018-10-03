@@ -126,10 +126,10 @@ int main(void)
     
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(Task, LedTask, osPriorityNormal, 0, 128);
+  osThreadDef(Task, LedTask, osPriorityNormal, 0, 512);
   ledTaskHandle = osThreadCreate(osThread(Task), NULL);
   
-  osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 240);
+  osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 512);
   watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start OS.");
@@ -181,7 +181,6 @@ void LedTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Blinky is alive I");
     HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
     osDelay(1000);
     HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_12);
@@ -194,7 +193,7 @@ void LedTask(void const * argument)
 	osDelay(1000);
 	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_13);
 	osDelay(1000);
-    ssLoggingPrint(ESsLoggingLevel_Info, 0, "Blinky is alive II");
+    ssLoggingPrint(ESsLoggingLevel_Info, 0, "Blinky is alive.");
   }
 }
 

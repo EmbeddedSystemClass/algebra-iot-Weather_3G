@@ -55,6 +55,7 @@ int _read(int file, char *ptr, int len) {
 int _write(int fd, const unsigned char * buffer, size_t size)
 {
   int32_t huart;
+  int status;
   
   if(fd == STDOUT_FILENO)
   {
@@ -70,6 +71,8 @@ int _write(int fd, const unsigned char * buffer, size_t size)
     return 0;
   }
   
-  return (size_t)ssUartWrite(huart, buffer, size);
+  status = (size_t)ssUartWrite(huart, buffer, size);
+
+  return status;
 }
 

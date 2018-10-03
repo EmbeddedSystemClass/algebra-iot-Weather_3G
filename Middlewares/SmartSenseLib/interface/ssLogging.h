@@ -47,7 +47,14 @@ void ssLoggingPrintRawStr(const ESsLoggingLevel level,
                           int len,
                           const char* unformattedStringPtr,
                           ...);
-  
+
+void ssLoggingPrintHD(const ESsLoggingLevel level,
+                      const uint32_t category,
+                      const uint8_t* src,
+                      int len,
+                      const char* unformattedStringPtr,
+                      ...);
+
 /*------------------------- PUBLIC FUNCTION DEFINITIONS ----------------------*/
 
 #ifdef __cplusplus
