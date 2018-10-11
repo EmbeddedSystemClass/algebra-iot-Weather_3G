@@ -10,10 +10,6 @@
 
 /*------------------------- INCLUDED FILES ************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -189,9 +185,6 @@ uint32_t fifo_read(FifoHandle_t hfifo, uint8_t *buf, uint32_t nbytes, uint32_t t
 
 /*------------------------- PRIVATE FUNCTION DEFINITIONS ---------------------*/
 
-#ifdef __cplusplus
-}
-#endif
 
 
 

@@ -25,6 +25,9 @@ extern "C" {
 
 /*------------------------- PUBLIC FUNCTION DEFINITIONS ----------------------*/
 
+void *s_init_modem(void);
+
+
 #ifdef __cplusplus
 }
 #endif

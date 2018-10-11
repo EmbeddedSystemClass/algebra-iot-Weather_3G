@@ -17,6 +17,10 @@ extern "C" {
 
 /*------------------------- MACRO DEFINITIONS --------------------------------*/
 
+#ifndef INADDR_NONE
+# define INADDR_NONE	0xffffffff
+#endif /* INADDR_NONE */
+
 /*------------------------- TYPE DEFINITIONS ---------------------------------*/
 
 /*------------------------- PUBLIC VARIABLES ---------------------------------*/

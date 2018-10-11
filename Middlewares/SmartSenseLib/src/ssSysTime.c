@@ -10,10 +10,6 @@
 
 /*------------------------- INCLUDED FILES ************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*------------------------- MACRO DEFINITIONS --------------------------------*/
 
 /*------------------------- TYPE DEFINITIONS ---------------------------------*/
@@ -27,10 +23,6 @@ extern "C" {
 /*------------------------- PUBLIC FUNCTION DEFINITIONS ----------------------*/
 
 /*------------------------- PRIVATE FUNCTION DEFINITIONS ---------------------*/
-
-#ifdef __cplusplus
-}
-#endif
 
 
  

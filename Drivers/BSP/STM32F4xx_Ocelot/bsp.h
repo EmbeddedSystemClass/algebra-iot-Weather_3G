@@ -150,10 +150,11 @@ extern "C" {
   *            @arg USART_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
   * @retval None
   */
-#define BSP_UART_ENABLE_IT(__UART__, __INTERRUPT__) //  ((((__INTERRUPT__) >> 28) == USART_CR1_REG_INDEX)? ((__UART__)->CR1 |= ((__INTERRUPT__) & USART_IT_MASK)): \
-                                                    //        (((__INTERRUPT__) >> 28) == USART_CR2_REG_INDEX)? ((__UART__)->CR2 |=  ((__INTERRUPT__) & USART_IT_MASK)): \
-                                                    //        ((__UART__)->CR3 |= ((__INTERRUPT__) & USART_IT_MASK)))
-
+#if 0
+#define BSP_UART_ENABLE_IT(__UART__, __INTERRUPT__)   ((((__INTERRUPT__) >> 28) == USART_CR1_REG_INDEX)? ((__UART__)->CR1 |= ((__INTERRUPT__) & USART_IT_MASK)): \
+                                                       (((__INTERRUPT__) >> 28) == USART_CR2_REG_INDEX)? ((__UART__)->CR2 |=  ((__INTERRUPT__) & USART_IT_MASK)): \
+                                                       ((__UART__)->CR3 |= ((__INTERRUPT__) & USART_IT_MASK)))
+#endif
 
 /** @brief  Disable the specified Usart interrupts.
   * @param  __HANDLE__: specifies the USART Handle.
@@ -168,10 +169,12 @@ extern "C" {
   *            @arg USART_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
   * @retval None
   */
-#define BSP_UART_DISABLE_IT(__UART__, __INTERRUPT__) // ((((__INTERRUPT__) >> 28) == USART_CR1_REG_INDEX)? ((__UART__)->CR1 &= ~((__INTERRUPT__) & USART_IT_MASK)): \
-                                                     //       (((__INTERRUPT__) >> 28) == USART_CR2_REG_INDEX)? ((__UART__)->CR2 &= ~((__INTERRUPT__) & USART_IT_MASK)): \
-                                                     //       ((__UART__)->CR3 &= ~ ((__INTERRUPT__) & USART_IT_MASK)))
-    
+#if 0
+#define BSP_UART_DISABLE_IT(__UART__, __INTERRUPT__)  ((((__INTERRUPT__) >> 28) == USART_CR1_REG_INDEX)? ((__UART__)->CR1 &= ~((__INTERRUPT__) & USART_IT_MASK)): \
+                                                       (((__INTERRUPT__) >> 28) == USART_CR2_REG_INDEX)? ((__UART__)->CR2 &= ~((__INTERRUPT__) & USART_IT_MASK)): \
+                                                       ((__UART__)->CR3 &= ~ ((__INTERRUPT__) & USART_IT_MASK)))
+#endif
+
   
 /* Si70xx temperature/humidity sensors */
 #define BSP_SI70XX_SENS_CNT   1  

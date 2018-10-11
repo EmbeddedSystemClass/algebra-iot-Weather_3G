@@ -10,10 +10,6 @@
 
 /*------------------------- INCLUDED FILES ************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-  
 #include "bsp.h"
 #include "ssSi70xx.h"
 
@@ -149,7 +145,3 @@ uint32_t ssSi70xx_ReadHumidity(int32_t id, uint32_t timeout, uint16_t *value)
   return status;
 }
 /*------------------------- PRIVATE FUNCTION DEFINITIONS ---------------------*/
-
-#ifdef __cplusplus
-}
-#endif

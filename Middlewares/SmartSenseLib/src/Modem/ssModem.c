@@ -249,9 +249,13 @@ bool modem_nwk_register(modem_t *self)
           // If not, set it
           if (status != 0)
           {
-            // Don't check return code here as there's not much
-            // we can do if this fails.
-            atparser_send(self->at, "AT+COPS=0") && atparser_recv(self->at, "OK");
+            /* Don't check return code here as there's not much
+               we can do if this fails. */
+        	// @TODO> add error handling
+            if(atparser_send(self->at, "AT+COPS=0"))
+            {
+              atparser_recv(self->at, "OK");
+            }
           }
         }
         

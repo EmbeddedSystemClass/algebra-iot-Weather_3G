@@ -38,8 +38,6 @@
 /* The global array of available sockets */
 struct socket_t sockets[NUM_SOCKETS];
 
-extern int errno;
-
 /*------------------------- PRIVATE VARIABLES --------------------------------*/
 
 /*------------------------- PRIVATE FUNCTION PROTOTYPES ----------------------*/
@@ -378,22 +376,6 @@ int32_t ss_atoi(const char *str)
     res = res*10 + str[i] - '0';
   }
   return res;
-}
-
-
-           
-
-
-/* dots and numbers string to unsigned long */
-uint32_t inet_addr(const char *cp)
-{
-  struct in_addr val;
-  if (inet_aton(cp, &val))
-  {
-    return val.s_addr;
-  }
-  return NULL;
-
 }
 
 

@@ -10,9 +10,6 @@
 
 /*------------------------- INCLUDED FILES ************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include <string.h>
 #include <stdio.h>
    
@@ -426,10 +423,6 @@ void MtApiReceiverTask(void * argument)
   }
 }
 
-
-#ifdef __cplusplus
-}
-#endif
 
 
  

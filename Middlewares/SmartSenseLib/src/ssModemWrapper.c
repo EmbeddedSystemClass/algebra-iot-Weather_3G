@@ -10,10 +10,6 @@
 
 /*------------------------- INCLUDED FILES ************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -128,7 +124,7 @@ static int32_t mdm_gethostbyname(char const *hostname, uint32_t *out_ip_addr)
 }
 
 /*------------------------- PUBLIC FUNCTION DEFINITIONS ----------------------*/
-netif_t *s_init_modem(void)
+void *s_init_modem(void)
 {
   if (!modem_flag)
   {
@@ -150,9 +146,6 @@ netif_t *s_init_modem(void)
     modem_flag = 1;
   }
 
-  return (netif_t *) modem;
+  return (void *)modem;
 }
 
-#ifdef __cplusplus
-}
-#endif

@@ -9,11 +9,6 @@
  **/
 
 /*------------------------- INCLUDED FILES ************************************/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-  
 #include "bsp.h"
 #include "ssSysCom.h"
 #include "ssSupervision.h"
@@ -123,10 +118,7 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask,  signed char *pcTaskName)
                        &xTask, pcTaskName);
   while(1);
 }
-  
-#ifdef __cplusplus
-}
-#endif
+
 
 
  

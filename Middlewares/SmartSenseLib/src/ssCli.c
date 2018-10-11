@@ -10,10 +10,6 @@
 
 /*------------------------- INCLUDED FILES ************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -169,17 +165,17 @@ void ssCliDebugPrint(char* format, ...)
   vsnprintf(cliOutputBuffer, CLI_OUTPUT_BUFFER_SIZE, format, args);
   va_end(args);
   
-  ssUartPuts(cliUart, (uint8_t const *)cliOutputBuffer);
+  ssUartPuts(cliUart, cliOutputBuffer);
 #endif
 }
 /*------------------------- PRIVATE FUNCTION DEFINITIONS ---------------------*/
 
 static void printWelcomemessage(void)
 {
-  ssUartPuts( cliUart, (uint8_t const *)newLine);
-  ssUartPuts( cliUart, (uint8_t const *)"SmartSense ");
-  ssUartPuts( cliUart, (uint8_t const *)cliAppName);
-  ssUartPuts( cliUart, (uint8_t const *)" command server.\r\nType help to view a list of registered commands.\r\n\r\n>");
+  ssUartPuts( cliUart, newLine);
+  ssUartPuts( cliUart, "SmartSense ");
+  ssUartPuts( cliUart, cliAppName);
+  ssUartPuts( cliUart, " command server.\r\nType help to view a list of registered commands.\r\n\r\n>");
 }
 
 void ssCliUartConsoleTask(void *argument)
@@ -192,7 +188,7 @@ void ssCliUartConsoleTask(void *argument)
   memset( cliOutputBuffer, 0x00, CLI_OUTPUT_BUFFER_SIZE );
  
   /* Send the welcome message. */
-  ssUartPuts( cliUart, (uint8_t const *)clearScreen);
+  ssUartPuts( cliUart, clearScreen);
 	printWelcomemessage();
   while(1)
   {
@@ -203,7 +199,7 @@ void ssCliUartConsoleTask(void *argument)
       BaseType_t ret;
       
       /* Start the command output in fresh line */
-      ssUartPuts(cliUart, (uint8_t const *)newLine);
+      ssUartPuts(cliUart, newLine);
       
       if(updateInputFromHistory)
       {
@@ -263,7 +259,7 @@ void ssCliUartConsoleTask(void *argument)
           /* Get the next output string from the command interpreter. */
           ret = FreeRTOS_CLIProcessCommand(cliInputBuffer, cliOutputBuffer, CLI_OUTPUT_BUFFER_SIZE, interrupted);
           /* Write the generated string to the UART. */
-          ssUartPuts(cliUart, (uint8_t const *)cliOutputBuffer);
+          ssUartPuts(cliUart, cliOutputBuffer);
           /* check if command is interrupted */
           
         } while(ret == pdTRUE);
@@ -289,7 +285,7 @@ void ssCliUartConsoleTask(void *argument)
           {
             historyCurrentIndex++;
             ssUartPuts(cliUart, "\33[2K\r>");
-            ssUartPuts(cliUart, (uint8_t const *)cliInputHistory[historyCurrentIndex]);
+            ssUartPuts(cliUart, cliInputHistory[historyCurrentIndex]);
             updateInputFromHistory = pdTRUE;
           }
         }
@@ -303,12 +299,12 @@ void ssCliUartConsoleTask(void *argument)
             ssUartPuts(cliUart, "\33[2K\r>");
             if(historyCurrentIndex == -1)
             {
-              ssUartPuts(cliUart, (uint8_t const *)cliInputBuffer);
+              ssUartPuts(cliUart, cliInputBuffer);
               updateInputFromHistory = pdTRUE;
             }
             else
             {
-              ssUartPuts(cliUart, (uint8_t const *)cliInputHistory[historyCurrentIndex]);
+              ssUartPuts(cliUart, cliInputHistory[historyCurrentIndex]);
             }
           }
         }
@@ -468,8 +464,3 @@ static BaseType_t CliCommonHistoryCommand( char *writeBuffer, size_t size, const
   
   return ret;
 }
-
-
-#ifdef __cplusplus
-}
-#endif

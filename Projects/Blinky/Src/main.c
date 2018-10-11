@@ -62,7 +62,6 @@
 #include "ssSysCom.h"
 #include "ssSupervision.h"
 #include "ssLogging.h"
-#include "ssDevMan.h"
     
 #include "Version.h"
 

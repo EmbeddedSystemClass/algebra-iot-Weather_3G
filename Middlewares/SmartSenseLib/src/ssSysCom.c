@@ -20,10 +20,6 @@
 #include "ssSysCom.h"
 #include "ssTask.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*------------------------- MACRO DEFINITIONS --------------------------------*/
 
 #define SYSCOM_QUEUE_NAME_SIZE  8
@@ -304,7 +300,7 @@ void* ssSysComMsgReceiveSelective(ssSysComCpidType cpid, uint32_t timeout, ssSys
       if(filter)
       {
         msg = NULL;
-        for(int i=0; filter[i]!=NULL; i++)
+        for(int i=0; filter[i]!=0; i++)
         {
           if(queue->rcvqueue[msgslot].message->header.msgid == filter[i])
           {
@@ -358,7 +354,7 @@ void* ssSysComMsgReceiveSelective(ssSysComCpidType cpid, uint32_t timeout, ssSys
         {
           bool filtered = true;
           /* check if in the filter, if not put it to the receive queue (list) and wait for more */
-          for(int i=0; filter[i]!=NULL; i++)
+          for(int i=0; filter[i] != 0; i++)
           {
             if(msg->header.msgid == filter[i])
             {
@@ -594,11 +590,6 @@ void ssSysComMsgSetMtm(const void *user_msg, const ssSysComMtmEnum requestedTran
   }
 }
 /*------------------------- PRIVATE FUNCTION DEFINITIONS ---------------------*/
-
-
-#ifdef __cplusplus
-}
-#endif
 
 
 

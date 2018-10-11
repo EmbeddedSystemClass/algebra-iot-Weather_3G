@@ -13,6 +13,7 @@
 #include <sys/times.h>
 #include <sys/unistd.h>
 #include "bsp.h"
+#include "ssUart.h"
 
 
 #ifndef STDOUT_USART
@@ -27,10 +28,6 @@
 #define STDIN_USART UART4
 #endif
 
-#undef errno
-extern int errno;
-
-extern int32_t stdin_uart_handle;
 extern int32_t stdout_uart_handle;
 extern int32_t stderr_uart_handle;
 
