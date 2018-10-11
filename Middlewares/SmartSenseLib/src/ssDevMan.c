@@ -26,8 +26,6 @@
 #include "cmsis_os.h"
 #include "ATCmdParser.h"
 
-#include "ssWifi.h"
-#include "ssWifiWrapper.h"
 #include "ssModemWrapper.h"
 
 #include "ssDevMan.h"
