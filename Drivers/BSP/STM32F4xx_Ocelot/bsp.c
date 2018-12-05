@@ -17,9 +17,6 @@
 #include "stm32f4xx_hal_can.h"
 #include "bsp.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*------------------------- MACRO DEFINITIONS --------------------------------*/
   
@@ -62,7 +59,7 @@ static void BSP_WD_Configure(void);
 static void BSP_WIFI_IRQ_Configure(void);
 static void BSP_GPIO_Configure(void);;
 
-
+static void _Error_Handler(char * file, int line);
 /*------------------------- PUBLIC FUNCTION DEFINITIONS ----------------------*/
 void BSP_init(void)
 {
@@ -114,9 +111,8 @@ static void BSP_Clock_Configure(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -127,7 +123,7 @@ static void BSP_Clock_Configure(void)
     */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
@@ -146,7 +142,7 @@ static void BSP_Clock_Configure(void)
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
   /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
   
     /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -226,9 +222,6 @@ static void BSP_GPIO_Configure(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GNSS_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -243,28 +236,6 @@ static void BSP_GPIO_Configure(void)
 
   /*Configure GPIO pin Output Level */
   //HAL_GPIO_WritePin(GPIOB, WIFI_HIB_Pin|WIFI_RESET_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PC1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA1 PA2 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : CAN_ADR_0_Pin CAN_ADR_1_Pin CAN_ADR_2_Pin */
   GPIO_InitStruct.Pin = CAN_ADR_0_Pin|CAN_ADR_1_Pin|CAN_ADR_2_Pin;
@@ -301,15 +272,9 @@ static void BSP_GPIO_Configure(void)
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB11 PB12 PB13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
   /*Configure GPIO pins : MDM_PWR_ON_Pin MDM_RESET_Pin */
+  HAL_GPIO_WritePin(GPIOD, MDM_PWR_ON_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOD, MDM_RESET_Pin, GPIO_PIN_SET);
   GPIO_InitStruct.Pin = MDM_PWR_ON_Pin|MDM_RESET_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -321,13 +286,6 @@ static void BSP_GPIO_Configure(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PC10 PC11 PC12 */
-  GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : WIFI_HIB_Pin */
   GPIO_InitStruct.Pin = WIFI_HIB_Pin;
@@ -405,12 +363,12 @@ static void BSP_Uart_Configure(void)
     PD11     ------> USART3_CTS
     PD12     ------> USART3_RTS 
     */
-    GPIO_InitStruct.Pin = BSP_USART3_TX_PIN|BSP_USART1_TX_PIN;
+    GPIO_InitStruct.Pin = BSP_USART3_TX_PIN|BSP_USART3_RX_PIN;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
-    HAL_GPIO_Init(BSP_USART1_TX_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init(BSP_USART3_TX_PORT, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = BSP_USART3_CTS_PIN|BSP_USART3_RTS_PIN;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -463,7 +421,7 @@ static void BSP_Uart_Configure(void)
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF8_UART7;
-    HAL_GPIO_Init(BSP_USART1_TX_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init(BSP_UART7_TX_PORT, &GPIO_InitStruct);
     
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(UART7_IRQn, 6, 0);
@@ -743,10 +701,15 @@ void BSP_Delay(uint32_t microseconds)
   }
 }
 
-
-#ifdef __cplusplus
+void _Error_Handler(char * file, int line)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  while(1) 
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */ 
 }
-#endif
 
 
 

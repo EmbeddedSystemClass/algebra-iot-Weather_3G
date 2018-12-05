@@ -8,9 +8,8 @@
 
 #include "FreeRTOS.h"
 
-#include "hal_modem.h"
-
 #include "ssLogging.h"
+#include "ssUart.h"
 
 #include "ATCmdParser.h"
 
@@ -91,13 +90,13 @@ void atparser_debug_on(ATCmdParser *self, uint8_t on)
 // getc/putc handling with timeouts
 int atparser_putc(ATCmdParser *self, char c)
 {
-  return hal_modem_write(self->_fd, (uint8_t *)&c, 1);
+  return ssUartWrite(self->_fd, (uint8_t *)&c, 1);
 }
 
 int atparser_getc(ATCmdParser *self)
 {
   uint8_t c;
-  if(hal_modem_read(self->_fd, &c, 1, self->_timeout) == 1)
+  if(ssUartRead(self->_fd, &c, 1, self->_timeout) == 1)
   {
     return (int)c;
   }
@@ -116,12 +115,12 @@ void atparser_flush(ATCmdParser *self)
 // read/write handling with timeouts
 int atparser_write(ATCmdParser *self, const char *data, int size)
 {
-  return hal_modem_write(self->_fd, (const uint8_t *)data, size);
+  return ssUartWrite(self->_fd, (const uint8_t *)data, size);
 }
 
 int atparser_read(ATCmdParser *self, char *data, int size)
 {
-  return hal_modem_read(self->_fd, (uint8_t *)data, size, self->_timeout);
+  return ssUartRead(self->_fd, (uint8_t *)data, size, self->_timeout);
 }
 
 

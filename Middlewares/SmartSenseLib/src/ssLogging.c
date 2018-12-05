@@ -76,6 +76,8 @@ void ssLoggingPrint(const ESsLoggingLevel level,
     return;
   }
 
+
+  osMutexWait(ssLoggingMutex, osWaitForever);
   length = formatPrintPrefixString(level, logBufferPtr);
 
   va_start(args, unformattedStringPtr);

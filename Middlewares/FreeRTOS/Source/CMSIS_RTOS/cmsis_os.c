@@ -804,7 +804,7 @@ osSemaphoreId osSemaphoreCreate (const osSemaphoreDef_t *semaphore_def, int32_t 
   }
   else {
 #if (configUSE_COUNTING_SEMAPHORES == 1 )	
-    return xSemaphoreCreateCounting(count, count);
+    return xSemaphoreCreateCounting(count, 0);
 #else
     return NULL;
 #endif
