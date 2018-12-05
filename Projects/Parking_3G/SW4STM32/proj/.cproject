@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.1499672261">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.1499672261" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.1499672261" name="Debug" parent="fr.ac6.managedbuild.config.gnu.cross.exe.debug" postannouncebuildStep="Generating hex and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O ihex &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.hex&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
+					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.1499672261." name="/" resourcePath="">
+						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug.441881505" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug">
+							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.263111417" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" useByScannerDiscovery="false" value="arm-none-eabi-" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.1794725981" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" useByScannerDiscovery="false" value="STM32F437VGTx" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1697416429" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" useByScannerDiscovery="false" value="Parking_3G" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.407783939" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" useByScannerDiscovery="false" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.1302617313" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" useByScannerDiscovery="false" value="fr.ac6.managedbuild.option.gnu.cross.fpu.fpv4-sp-d16" valueType="enumerated"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1088481771" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" useByScannerDiscovery="false" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.hard" valueType="enumerated"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.1046135039" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/Parking_3G}/Debug" id="fr.ac6.managedbuild.builder.gnu.cross.1424441682" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
+								</outputEntries>
+							</builder>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.575243542" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
+								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.2131754288" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.1760652234" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.1555904747" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../../../Inc"/>
+									<listOptionValue builtIn="false" value="../../../../../Drivers/BSP/STM32F4xx_Ocelot"/>
+									<listOptionValue builtIn="false" value="../../../../../Drivers/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="../../../../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+									<listOptionValue builtIn="false" value="../../../../../Drivers/Components/modem"/>
+									<listOptionValue builtIn="false" value="../../../../../Drivers/STM32F4xx_HAL_Driver/Inc"/>
+									<listOptionValue builtIn="false" value="../../../../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/FreeRTOS/Source/CMSIS_RTOS"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-CLI"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/SmartSenseLib/interface"/>
+									<listOptionValue builtIn="false" value="../../../../../Middlewares/sysdep/include"/>
+								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.42742876" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))"/>
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+									<listOptionValue builtIn="false" value="STM32F437xx"/>
+									<listOptionValue builtIn="false" value="BUILD_USER_NAME=&quot;${USERNAME}&quot;"/>
+									<listOptionValue builtIn="false" value="STDOUT_UART=USART6"/>
+									<listOptionValue builtIn="false" value="STDOUT_UART_BAUDRATE=115200"/>
+									<listOptionValue builtIn="false" value="STDOUT_USART_BUFFER_SIZE=256"/>
+									<listOptionValue builtIn="false" value="CLI_CONSOLE_UART=UART7"/>
+									<listOptionValue builtIn="false" value="CLI_CONSOLE_UART_BAUDRATE=115200"/>
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1200027939" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
+								<option id="gnu.c.compiler.option.dialect.std.867494429" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c99" valueType="enumerated"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1680361037" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1197117202" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.2018041787" name="MCU G++ Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler">
+								<option defaultValue="gnu.cpp.optimization.level.none" id="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level.1067046574" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.cpp.optimization.level.debug" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.1998047746" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.include.paths.655575884" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../../Inc"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/STM32F4xx_HAL_Driver/Inc"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/CMSIS_RTOS"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="../../..Projects/Blinky/Inc"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.53694501" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))"/>
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))"/>
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+									<listOptionValue builtIn="false" value="STM32F437xx"/>
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.341509206" name="Other flags" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.716562257" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.1164815767" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.1626536430" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.1543678412" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" useByScannerDiscovery="false" value="../STM32F437VGTx_FLASH.ld" valueType="string"/>
+								<option id="gnu.c.link.option.libs.2058345737" name="Libraries (-l)" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false"/>
+								<option id="gnu.c.link.option.paths.1333642505" name="Library search path (-L)" superClass="gnu.c.link.option.paths" useByScannerDiscovery="false"/>
+								<option id="gnu.c.link.option.ldflags.329403500" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-specs=nosys.specs -specs=nano.specs" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.908084348" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.972709823" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker">
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script.629573448" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script" value="../STM32F437VGTx_FLASH.ld" valueType="string"/>
+								<option id="gnu.cpp.link.option.libs.1446226674" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
+								<option id="gnu.cpp.link.option.paths.852620413" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
+								<option id="gnu.cpp.link.option.flags.820984519" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-specs=nosys.specs -specs=nano.specs" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1603555146" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.113705037" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver"/>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.215437438" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
+								<option id="gnu.both.asm.option.include.paths.2054461215" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../../../../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1959117086" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.322140104" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c|Drivers/Components/modem|Middlewares/SmartSenseLib/src/Modem/ssModemCli.c|Middlewares/SmartSenseLib/src/Modem/ssModem.c|Middlewares/SmartSenseLib/src/Modem/ssGNSS.c|Middlewares/SmartSenseLib/src/ssSocket.c|Middlewares/SmartSenseLib/src/ssMtApi.c|Middlewares/SmartSenseLib/src/ssModemWrapper.c|Middlewares/SmartSenseLib/src/ssDevMan.c|Middlewares/SmartSenseLib/src/ssSi70xx.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_msp_template.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_tim_template.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c|Middlewares/cc3100-sdk/simplelink_extlib/flc/flc.c|Middlewares/SmartSenseLib/src/ssEeprom.c|Middlewares/SmartSenseLib/src/ssCan.c|Middlewares/SmartSenseLib/src/port/GCC/unistd.c|Middlewares/FreeRTOS-Plus/Source/WolfSSL|Middlewares/FreeRTOS-Plus/Source/Reliance-Edge|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-UDP|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace(streaming)|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-OpenOCD|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-Nabto|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-IO|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-FAT-SL|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-FAT|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_wwdg.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sram.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_spdifrx.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_smartcard.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sdram.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sd.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sai.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sai_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rtc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rtc_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rng.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_qspi.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pcd.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pcd_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pccard.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_nor.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_nand.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_mmc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_ltdc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_ltdc_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_lptim.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_iwdg.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_irda.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_i2s.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_i2s_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_hcd.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_hash.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_hash_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_fmpi2c.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_fmpi2c_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_eth.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dsi.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma2d.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dfsdm.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dcmi.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dcmi_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dac.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dac_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cryp.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cryp_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_crc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cec.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_timebase_tim_template.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_timebase_rtc_wakeup_template.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_timebase_rtc_alarm_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1285852878">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1285852878" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1285852878" name="Release" parent="fr.ac6.managedbuild.config.gnu.cross.exe.release" postannouncebuildStep="Generating hex and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O ihex &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.hex&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
+					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.release.1285852878." name="/" resourcePath="">
+						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release.872074023" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release">
+							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.263111417" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.1794725981" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F437VGTx" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1697416429" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="Parking_3G" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.407783939" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.1302617313" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.fpv4-sp-d16" valueType="enumerated"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1088481771" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.hard" valueType="enumerated"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.1046135039" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/Parking_3G}/Release" id="fr.ac6.managedbuild.builder.gnu.cross.1424441682" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
+								</outputEntries>
+							</builder>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.575243542" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
+								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.2131754288" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.1760652234" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.1555904747" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../../..Projects/Blinky/Inc"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/STM32F4xx_HAL_Driver/Inc"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/CMSIS_RTOS"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="../../..Projects/Blinky/Inc"/>
+								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.42742876" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))"/>
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))"/>
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+									<listOptionValue builtIn="false" value="STM32F437xx"/>
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1200027939" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.1680361037" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1197117202" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s"/>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.2018041787" name="MCU G++ Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler">
+								<option defaultValue="gnu.cpp.optimization.level.none" id="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level.1067046574" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.cpp.optimization.level.debug" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.1998047746" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.include.paths.655575884" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../../..Projects/Blinky/Inc"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/STM32F4xx_HAL_Driver/Inc"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../../../../Middlewares/FreeRTOS/Source/CMSIS_RTOS"/>
+									<listOptionValue builtIn="false" value="../../../../Drivers/CMSIS/Include"/>
+									<listOptionValue builtIn="false" value="../../..Projects/Blinky/Inc"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.symbols.37798353" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))"/>
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))"/>
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER"/>
+									<listOptionValue builtIn="false" value="STM32F437xx"/>
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.341509206" name="Other flags" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.716562257" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.1164815767" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s"/>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.1626536430" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.1543678412" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32F437VGTx_FLASH.ld" valueType="string"/>
+								<option id="gnu.c.link.option.libs.2058345737" name="Libraries (-l)" superClass="gnu.c.link.option.libs"/>
+								<option id="gnu.c.link.option.paths.1333642505" name="Library search path (-L)" superClass="gnu.c.link.option.paths"/>
+								<option id="gnu.c.link.option.ldflags.329403500" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.908084348" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.972709823" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker">
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script.629573448" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script" value="../STM32F437VGTx_FLASH.ld" valueType="string"/>
+								<option id="gnu.cpp.link.option.libs.1446226674" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
+								<option id="gnu.cpp.link.option.paths.852620413" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths"/>
+								<option id="gnu.cpp.link.option.ldflags.1827926355" superClass="gnu.cpp.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1603555146" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.113705037" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver"/>
+							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.exe.release.993105063" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.exe.release">
+								<option id="gnu.both.asm.option.include.paths.2054461215" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths"/>
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1959117086" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.322140104" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_utils.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usart.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_tim.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rtc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rng.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_rcc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_pwr.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_lptim.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_i2c.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fsmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma2d.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dma.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_crc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_usart.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sram.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spdifrx.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_smartcard.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sdram.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sai_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rtc_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rng.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_qspi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pccard.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nor.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_nand.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_mmc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_ltdc_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hcd.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_hash_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_fmpi2c_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_eth.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dsi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma2d.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dfsdm.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dcmi_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cryp_ex.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cec.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c|Drivers/Components/modem|Middlewares/SmartSenseLib/src/Modem/ssModemCli.c|Middlewares/SmartSenseLib/src/Modem/ssModem.c|Middlewares/SmartSenseLib/src/Modem/ssGNSS.c|Middlewares/SmartSenseLib/src/ssSocket.c|Middlewares/SmartSenseLib/src/ssMtApi.c|Middlewares/SmartSenseLib/src/ssModemWrapper.c|Middlewares/SmartSenseLib/src/ssDevMan.c|Middlewares/SmartSenseLib/src/ssSi70xx.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_msp_template.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_tim_template.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c|Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c|Middlewares/cc3100-sdk/simplelink_extlib/flc/flc.c|Middlewares/SmartSenseLib/src/ssEeprom.c|Middlewares/SmartSenseLib/src/ssCan.c|Middlewares/SmartSenseLib/src/port/GCC/unistd.c|Middlewares/FreeRTOS-Plus/Source/WolfSSL|Middlewares/FreeRTOS-Plus/Source/Reliance-Edge|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-UDP|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace(streaming)|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-Trace|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-OpenOCD|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-Nabto|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-IO|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-FAT-SL|Middlewares/FreeRTOS-Plus/Source/FreeRTOS-Plus-FAT|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_wwdg.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sram.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_spdifrx.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_smartcard.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sdram.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sd.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sai.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_sai_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rtc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rtc_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_rng.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_qspi.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pcd.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pcd_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_pccard.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_nor.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_nand.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_mmc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_ltdc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_ltdc_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_lptim.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_iwdg.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_irda.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_i2s.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_i2s_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_hcd.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_hash.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_hash_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_fmpi2c.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_fmpi2c_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_eth.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dsi.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dma2d.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dfsdm.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dcmi.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dcmi_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dac.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_dac_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cryp.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cryp_ex.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_crc.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_cec.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_timebase_tim_template.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_timebase_rtc_wakeup_template.c|Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal_timebase_rtc_alarm_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="Parking_3G.fr.ac6.managedbuild.target.gnu.cross.exe.1326336513" name="Executable" projectType="fr.ac6.managedbuild.target.gnu.cross.exe"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/Parking_3G"/>
+		</configuration>
+		<configuration configurationName="Release"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="scannerConfiguration"/>
+</cproject>
