@@ -49,6 +49,7 @@ ATCmdParser *atparser_create(int fd)
   return parser;
 }
 
+
 void atparser_destroy(ATCmdParser *self)
 {
   vPortFree(self->_buffer);
