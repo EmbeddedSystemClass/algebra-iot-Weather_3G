@@ -197,7 +197,7 @@ void WatchdogTask(void const * argument)
 void EchoTask(void const * argument)
 {
 	modem_all();
-/*  ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
+  /* ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
 
   modem_init();
 
@@ -206,7 +206,7 @@ void EchoTask(void const * argument)
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem attached successfully.");
   }
 
-  /* Infinite loop */
+  Infinite loop */
   for(;;)
   {
     osDelay(100);
@@ -268,7 +268,7 @@ static void modem_power_up()
   osDelay(100);
 }
 
-/*
+
 static bool modem_attach()
 {
   bool ret = false;
@@ -301,7 +301,7 @@ static bool modem_attach()
 
   return ret;
 }
-*/
+
 static void send_cmd_modem(char* cmd, char reicv)
 {
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "TEST");
@@ -310,28 +310,32 @@ static void send_cmd_modem(char* cmd, char reicv)
 	char ct[100];
 	int status;
 
+	memset(ct,'\0',100);
+	memset(buffer,'\0',100);
+
 	atparser_send(modem_parser_handle, cmd);
+	//osDelay(10000);
 	atparser_recv(modem_parser_handle, reicv, &status);
 	atparser_read(modem_parser_handle,buffer,100);
+
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "TEST 2");
 	strcat(ct,"CMD ");
 	strcat(ct,cmd);
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, ct);
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, buffer);
-	memset(ct,'\0',100);
-	memset(buffer,'\0',100);
+
 
 }
 static int modem_all(){
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem_All_0");
 	 modem_init();
-	 if(/*modem_attach()*/ 1 == 1){
+	 if(modem_attach()){
 		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem attached successfully.");
 		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem_All_1");
-		char cmd_AT[][36] = {"AT","AT+CPIN?","AT+CREG?","AT+CREG=1", "AT+CREG?","AT+CGDCONT=1,\"IP\",\"internet.tele2.hr\"","AT+CGACT=1","AT+CGPADDR=1","AT+upsd=0,1,\"hologram\"","AT+upsda=0,3","AT+usocr=17,1000"};
+		char cmd_AT[][50] = {"AT","AT+CPIN?","AT+CREG?","AT+CREG=1", "AT+CREG?", "AT+CGDCONT=1,\"IP\",\"internet.tele2.hr\"", "AT+CGACT=1", "AT+CGPADDR=1", "AT+upsd=0,1,\"hologram\"", "AT+upsda=0,3", "AT+usocr=17,1000"};
 		for(int i = 0; i < 11; i += 1){
-		/*	ssLoggingPrint(ESsLoggingLevel_Info, 0, "454545");
-			ssLoggingPrint(ESsLoggingLevel_Info, 0, cmd_AT[i]);*/
+			//ssLoggingPrint(ESsLoggingLevel_Info, 0, "454545");
+			//ssLoggingPrint(ESsLoggingLevel_Info, 0, cmd_AT[i]);
 			send_cmd_modem(cmd_AT[i],'A');
 		}
 		send_cmd_modem("AT+USOST=0,\"142.93.104.222\",9000,13,\"Testna_poruka\"",'A');
