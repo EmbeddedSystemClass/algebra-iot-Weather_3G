@@ -90,6 +90,7 @@ static void modem_power_up();
 static bool modem_attach();
 static int modem_all();
 static void send_cmd_modem(char* , char);
+static void read_wind();
 
 //#define modem_send(command, �) atparser_send(modem_parser_handle, command, ##__VA_ARGS__)
 //#define modem_recv(response, �) atparser_recv(modem_parser_handle, response, ##__VA_ARGS__)
@@ -119,14 +120,14 @@ int main(void)
   /* start CLI console */
   //ssCliUartConsoleStart();
   //CliCommonCmdsInit();
-    
+
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
-  ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+  //osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
+  //ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
   
-  osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 512);
-  watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
+  //osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 512);
+  //watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
   osThreadDef(echoTask, EchoTask, osPriorityHigh, 0, 512);
   echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
@@ -196,7 +197,8 @@ void WatchdogTask(void const * argument)
 
 void EchoTask(void const * argument)
 {
-	modem_all();
+	//modem_all();
+
   /* ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
 
   modem_init();
@@ -209,7 +211,8 @@ void EchoTask(void const * argument)
   Infinite loop */
   for(;;)
   {
-    osDelay(100);
+	  read_wind();
+	  osDelay(100);
   }
 }
 
@@ -304,7 +307,7 @@ static bool modem_attach()
 
 static void send_cmd_modem(char* cmd, char reicv)
 {
-	ssLoggingPrint(ESsLoggingLevel_Info, 0, "TEST");
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Command");
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, cmd);
 	char buffer[100];
 	char ct[100];
@@ -315,7 +318,7 @@ static void send_cmd_modem(char* cmd, char reicv)
 
 	atparser_send(modem_parser_handle, cmd);
 	//osDelay(10000);
-	atparser_recv(modem_parser_handle, reicv, &status);
+	atparser_recv(modem_parser_handle, reicv);
 	atparser_read(modem_parser_handle,buffer,100);
 
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "TEST 2");
@@ -327,24 +330,33 @@ static void send_cmd_modem(char* cmd, char reicv)
 
 }
 static int modem_all(){
-	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem_All_0");
 	 modem_init();
 	 if(modem_attach()){
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem attached successfully.");
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem_All_1");
 		char cmd_AT[][50] = {"AT","AT+CPIN?","AT+CREG?","AT+CREG=1", "AT+CREG?", "AT+CGDCONT=1,\"IP\",\"internet.tele2.hr\"", "AT+CGACT=1", "AT+CGPADDR=1", "AT+upsd=0,1,\"hologram\"", "AT+upsda=0,3", "AT+usocr=17,1000"};
 		for(int i = 0; i < 11; i += 1){
 			//ssLoggingPrint(ESsLoggingLevel_Info, 0, "454545");
 			//ssLoggingPrint(ESsLoggingLevel_Info, 0, cmd_AT[i]);
 			send_cmd_modem(cmd_AT[i],'A');
 		}
-		send_cmd_modem("AT+USOST=0,\"142.93.104.222\",9000,13,\"Testna_poruka\"",'A');
+		for(;;){
+			send_cmd_modem("AT+USOST=0,\"142.93.104.222\",9000,13,\"Testna_poruka\"",'A');
+			send_cmd_modem("AT+USORF=0,255",'A');
+		}
+
 		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem_All_2");
 	 } else {
 		 ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem_All_3");
 	 }
 	 return 1;
 
+}
+static void read_wind(){
+	GPIO_PinState state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+	if(state){
+	    //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
+	    ssLoggingPrint(ESsLoggingLevel_Info, 0, (char )state);
+	    //osDelay(2000);
+	}
 }
 #if 0
 static void template()

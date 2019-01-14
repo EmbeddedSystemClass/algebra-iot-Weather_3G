@@ -237,6 +237,7 @@ static void BSP_GPIO_Configure(void)
   /*Configure GPIO pin Output Level */
   //HAL_GPIO_WritePin(GPIOB, WIFI_HIB_Pin|WIFI_RESET_Pin, GPIO_PIN_RESET);
 
+
   /*Configure GPIO pins : CAN_ADR_0_Pin CAN_ADR_1_Pin CAN_ADR_2_Pin */
   GPIO_InitStruct.Pin = CAN_ADR_0_Pin|CAN_ADR_1_Pin|CAN_ADR_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -309,6 +310,12 @@ static void BSP_GPIO_Configure(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : PC2 */
+	GPIO_InitStruct.Pin = GPIO_PIN_2;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 }
 
 
