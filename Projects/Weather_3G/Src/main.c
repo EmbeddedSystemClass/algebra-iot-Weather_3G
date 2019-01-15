@@ -81,6 +81,8 @@ int32_t hz;
 GPIO_PinState state;
 volatile uint32_t counter = 0;
 uint32_t milli;
+int16_t windSpeed = 0;
+int16_t waterLevel = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 void LedTask(void const * argument);
@@ -91,9 +93,11 @@ void EchoTask(void const * argument);
 static void modem_init();
 static void modem_power_up();
 static bool modem_attach();
+static void modem_start();
 static int modem_all();
 static void send_cmd_modem(char* , char);
 static void read_wind();
+static void read_water();
 //uint32_t millis();
 
 
@@ -189,14 +193,14 @@ void LedTask(void const * argument)
 
 void WatchdogTask(void const * argument)
 {
-
-  ssLoggingPrint(ESsLoggingLevel_Info, 0, "WatchdogTask started");
+	modem_all();
+  //ssLoggingPrint(ESsLoggingLevel_Info, 0, "WatchdogTask started");
   /* Infinite loop */
-  for(;;)
+  /*for(;;)
   {
     HAL_GPIO_TogglePin(BSP_WD_GPIO_PORT, BSP_WD_PIN);
     osDelay(100);
-  }
+  }*/
 }
 
 
@@ -214,11 +218,13 @@ void EchoTask(void const * argument)
   }
 
   Infinite loop */
+  // modem_start();
   state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
   milli = HAL_GetTick();
   for(;;)
   {
-	  read_wind();
+	  //read_wind();
+	  read_water();
 	 //osDelay(100);
   }
 }
@@ -336,6 +342,17 @@ static void send_cmd_modem(char* cmd, char reicv)
 
 
 }
+static void modem_start(){
+	 modem_init();
+	 if(modem_attach()){
+		char cmd_AT[][50] = {"AT","AT+CPIN?","AT+CREG?","AT+CREG=1", "AT+CREG?", "AT+CGDCONT=1,\"IP\",\"internet.tele2.hr\"", "AT+CGACT=1", "AT+CGPADDR=1", "AT+upsd=0,1,\"hologram\"", "AT+upsda=0,3", "AT+usocr=17,1000"};
+		for(int i = 0; i < 11; i += 1){
+			//ssLoggingPrint(ESsLoggingLevel_Info, 0, "454545");
+			//ssLoggingPrint(ESsLoggingLevel_Info, 0, cmd_AT[i]);
+			send_cmd_modem(cmd_AT[i],'A');
+		}
+	 }
+}
 static int modem_all(){
 	 modem_init();
 	 if(modem_attach()){
@@ -346,7 +363,17 @@ static int modem_all(){
 			send_cmd_modem(cmd_AT[i],'A');
 		}
 		for(;;){
-			send_cmd_modem("AT+USOST=0,\"142.93.104.222\",9000,13,\"Testna_poruka\"",'A');
+			char finalData[100];
+			char part1[35] = "AT+USOST=0,\"142.93.104.222\",9000,";
+			char str[16];
+			sprintf(str, "%d", windSpeed);
+
+			char size[2];
+			sprintf(size,"%d",sizeof(str)/sizeof(char));
+			sprintf(finalData,"%s%s,%s",part1,size,str);
+
+			ssLoggingPrint(ESsLoggingLevel_Info, 0, finalData);
+			send_cmd_modem(finalData,'A');
 			send_cmd_modem("AT+USORF=0,255",'A');
 		}
 
@@ -358,13 +385,12 @@ static int modem_all(){
 
 }
 static void read_wind(){
+
 	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
 
 	if(state != currentState){
 	    //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
 		hz += 1;
-		char str[10];
-		sprintf(str, "%d", hz);
 		state = currentState;
 	    //ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
 	    //osDelay(2000);
@@ -372,15 +398,68 @@ static void read_wind(){
 		//ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
 	}
 	if(milli < HAL_GetTick() - 1000){
-		char str[16];
-		int i = (hz/2)*0.667;
-		sprintf(str, "%d", i);
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
+		int i = (hz/4);
+		windSpeed = i;
+		char finalData[100];
+		char part1[35] = "AT+USOST=0,\"142.93.104.222\",9000,";
+		char str[3];
+		sprintf(str, "\"%d\"", windSpeed);
+
+		char size[2];
+		sprintf(size,"%d",sizeof(str)/sizeof(char)-2);
+		sprintf(finalData,"%s%s,%s",part1,size,str);
+
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, finalData);
+		send_cmd_modem(finalData,'A');
+		send_cmd_modem("AT+USORF=0,255",'A');
+
+		//sprintf(str, "%d", i);
+		//ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
 		milli = HAL_GetTick();
 		hz = 0;
 	}
 
 }
+static void read_water(){
+
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+
+	if(state != currentState){
+
+	    //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
+		waterLevel += 1;
+		state = currentState;
+		char str[16];
+				sprintf(str, "%d", waterLevel);
+	    ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
+	    //osDelay(2000);
+	} else {
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
+	}
+	/*if(milli < HAL_GetTick() - 3600000){
+		int i = (hz/4);
+		windSpeed = i;
+		char finalData[100];
+		char part1[35] = "AT+USOST=0,\"142.93.104.222\",9000,";
+		char str[3];
+		sprintf(str, "\"%d\"", windLevel);
+
+		char size[2];
+		sprintf(size,"%d",sizeof(str)/sizeof(char)-2);
+		sprintf(finalData,"%s%s,%s",part1,size,str);
+
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, finalData);
+		send_cmd_modem(finalData,'A');
+		send_cmd_modem("AT+USORF=0,255",'A');
+
+		//sprintf(str, "%d", i);
+		//ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
+		milli = HAL_GetTick();
+		hz = 0;
+	}*/
+
+}
+
 //uint32_t millis(){
 	//return counter;
 //}
