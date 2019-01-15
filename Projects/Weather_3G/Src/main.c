@@ -77,7 +77,10 @@ osThreadId watchdogTaskHandle;
 osThreadId echoTaskHandle;
 static int32_t modem_uart_handle = -1;
 ATCmdParser *modem_parser_handle = NULL;
-
+int32_t hz;
+GPIO_PinState state;
+volatile uint32_t counter = 0;
+uint32_t milli;
 
 /* Private function prototypes -----------------------------------------------*/
 void LedTask(void const * argument);
@@ -91,6 +94,8 @@ static bool modem_attach();
 static int modem_all();
 static void send_cmd_modem(char* , char);
 static void read_wind();
+//uint32_t millis();
+
 
 //#define modem_send(command, �) atparser_send(modem_parser_handle, command, ##__VA_ARGS__)
 //#define modem_recv(response, �) atparser_recv(modem_parser_handle, response, ##__VA_ARGS__)
@@ -112,7 +117,7 @@ int main(void)
   ssLoggingInit();
   stdio_init();
   ssSysComInit();
-  
+  SysTick_Config(SystemCoreClock /1000);
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "%s running on %s, version %s, built %s by %s", app_name, board_name, build_version, build_date, build_author);
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "Initializing tasks...");
   ssCliUartConsoleInit();
@@ -199,9 +204,9 @@ void EchoTask(void const * argument)
 {
 	//modem_all();
 
-  /* ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
+   ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
 
-  modem_init();
+  /*modem_init();
 
   if(modem_attach())
   {
@@ -209,10 +214,12 @@ void EchoTask(void const * argument)
   }
 
   Infinite loop */
+  state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+  milli = HAL_GetTick();
   for(;;)
   {
 	  read_wind();
-	  osDelay(100);
+	 //osDelay(100);
   }
 }
 
@@ -351,13 +358,35 @@ static int modem_all(){
 
 }
 static void read_wind(){
-	GPIO_PinState state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
-	if(state){
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+
+	if(state != currentState){
 	    //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
-	    ssLoggingPrint(ESsLoggingLevel_Info, 0, (char )state);
+		hz += 1;
+		char str[10];
+		sprintf(str, "%d", hz);
+		state = currentState;
+	    //ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
 	    //osDelay(2000);
+	} else {
+		//ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
 	}
+	if(milli < HAL_GetTick() - 1000){
+		char str[16];
+		int i = (hz/2)*0.667;
+		sprintf(str, "%d", i);
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
+		milli = HAL_GetTick();
+		hz = 0;
+	}
+
 }
+//uint32_t millis(){
+	//return counter;
+//}
+//SysTick_Handler(void){
+	//counter++;
+//}
 #if 0
 static void template()
 {
