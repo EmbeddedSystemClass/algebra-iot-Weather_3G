@@ -79,11 +79,14 @@ static int32_t modem_uart_handle = -1;
 ATCmdParser *modem_parser_handle = NULL;
 int32_t hz;
 GPIO_PinState state;
-volatile uint32_t counter = 0;
 uint32_t milli;
-int16_t windSpeed = 0;
-int16_t waterLevel = 0;
-int32_t change = 0;
+volatile uint32_t counter	= 0;
+int16_t windSpeed			= 0;
+int16_t waterLevel			= 0;
+int32_t change				= 0;
+int16_t humidityLevel		= 0;
+int16_t temperatureLevel	= 0;
+int32_t sendData			= 0;
 
 /* Private function prototypes -----------------------------------------------*/
 void LedTask(void const * argument);
@@ -99,6 +102,7 @@ static int modem_all();
 static void send_cmd_modem(char* , char);
 static void read_wind();
 static void read_water();
+static void send_sensor();
 //uint32_t millis();
 
 
@@ -136,10 +140,10 @@ int main(void)
   //osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
   //ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
   
-  //osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 512);
+  //osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 1024);
   //watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
-  osThreadDef(echoTask, EchoTask, osPriorityHigh, 0, 512);
+  osThreadDef(echoTask, EchoTask, osPriorityLow, 0, 1024);
   echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
 
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start OS.");
@@ -194,7 +198,11 @@ void LedTask(void const * argument)
 
 void WatchdogTask(void const * argument)
 {
-	modem_all();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "WatchdogTask started");
+	//modem_start();
+	//for(;;){
+		//send_sensor();
+	//}
   //ssLoggingPrint(ESsLoggingLevel_Info, 0, "WatchdogTask started");
   /* Infinite loop */
   /*for(;;)
@@ -207,26 +215,20 @@ void WatchdogTask(void const * argument)
 
 void EchoTask(void const * argument)
 {
-	//modem_all();
-
-   ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
-
-  /*modem_init();
-
-  if(modem_attach())
-  {
-	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Modem attached successfully.");
-  }
-
-  Infinite loop */
-  // modem_start();
+  ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
+  modem_start();
   state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
   milli = HAL_GetTick();
+  //sendData = milli;
   for(;;)
   {
 	  //read_wind();
 	  read_water();
-	 //osDelay(100);
+	  if(sendData < HAL_GetTick() - 10000){
+		  send_sensor();
+		  sendData = HAL_GetTick();
+	  }
+	  //osDelay(100);
   }
 }
 
@@ -318,14 +320,42 @@ static bool modem_attach()
 
   return ret;
 }
+static void send_sensor(){
+	char wind[20]			= "wind : ";
+	sprintf(wind,"%s%d",wind,windSpeed);
 
+	char water[20];
+	sprintf(water,"%s%d","water : ",waterLevel);
+
+	char humidity[20]		= "humidity : ";
+	sprintf(humidity,"%s%d",humidity, humidityLevel);
+
+	char temperature[20]	= "temperature : ";
+	sprintf(temperature,"%s%d",temperature,temperatureLevel);
+
+	char json[100];
+	sprintf(json, "\"{%s,%s,%s,%s}\"", wind,water,humidity,temperature);
+
+	char finalData[200];
+	char part1[35] = "AT+USOST=0,\"142.93.104.222\",9000,";
+
+
+	char size[3];
+	sprintf(size,"%d",strlen(json)-2);
+	sprintf(finalData,"%s%s,%s",part1,size,json);
+
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, finalData);
+	send_cmd_modem(finalData,'A');
+
+	send_cmd_modem(json,'A');
+	send_cmd_modem("AT+USORF=0,255",'A');
+}
 static void send_cmd_modem(char* cmd, char reicv)
 {
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Command");
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, cmd);
 	char buffer[100];
 	char ct[100];
-	int status;
 
 	memset(ct,'\0',100);
 	memset(buffer,'\0',100);
@@ -427,20 +457,18 @@ static void read_water(){
 	if(currentState != 1){
 		change += 1;
 		if(change == 1){
+			waterLevel += 1;
 			ssLoggingPrint(ESsLoggingLevel_Info, 0, "Change");
 		}
 	} else {
 		change = 0;
 	}
-	//ssLoggingPrint(ESsLoggingLevel_Info, 0, (char)change);
+	//One hour 3600000
+	if(milli < HAL_GetTick() - 12500){
+		waterLevel = 0;
+		milli = HAL_GetTick();
+	}
 }
-
-//uint32_t millis(){
-	//return counter;
-//}
-//SysTick_Handler(void){
-	//counter++;
-//}
 #if 0
 static void template()
 {
