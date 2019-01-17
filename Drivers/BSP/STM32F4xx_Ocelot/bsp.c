@@ -315,6 +315,16 @@ static void BSP_GPIO_Configure(void)
 	GPIO_InitStruct.Pin = GPIO_PIN_2;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : PC3 */
+	GPIO_InitStruct.Pin = GPIO_PIN_3;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : PC3 */
+	GPIO_InitStruct.Pin = GPIO_PIN_2;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 }
 
 

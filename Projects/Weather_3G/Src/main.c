@@ -79,7 +79,8 @@ static int32_t modem_uart_handle = -1;
 ATCmdParser *modem_parser_handle = NULL;
 int32_t hz;
 GPIO_PinState state;
-uint32_t milli;
+uint32_t windChrono;
+uint32_t waterChrono;
 volatile uint32_t counter	= 0;
 int16_t windSpeed			= 0;
 int16_t waterLevel			= 0;
@@ -216,18 +217,18 @@ void WatchdogTask(void const * argument)
 void EchoTask(void const * argument)
 {
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
-  modem_start();
+  //modem_start();
   state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
-  milli = HAL_GetTick();
+  windChrono = HAL_GetTick();
   //sendData = milli;
   for(;;)
   {
-	  //read_wind();
-	  read_water();
-	  if(sendData < HAL_GetTick() - 10000){
-		  send_sensor();
-		  sendData = HAL_GetTick();
-	  }
+	  read_wind();
+	  //read_water();
+	  //if(sendData < HAL_GetTick() - 10000){
+		//  send_sensor();
+		  //sendData = HAL_GetTick();
+	  //}
 	  //osDelay(100);
   }
 }
@@ -321,17 +322,17 @@ static bool modem_attach()
   return ret;
 }
 static void send_sensor(){
-	char wind[20]			= "wind : ";
-	sprintf(wind,"%s%d",wind,windSpeed);
+	char wind[20];
+	sprintf(wind,"%s%d","wind : ",windSpeed);
 
 	char water[20];
 	sprintf(water,"%s%d","water : ",waterLevel);
 
-	char humidity[20]		= "humidity : ";
-	sprintf(humidity,"%s%d",humidity, humidityLevel);
+	char humidity[20];
+	sprintf(humidity,"%s%d","humidity : ", humidityLevel);
 
-	char temperature[20]	= "temperature : ";
-	sprintf(temperature,"%s%d",temperature,temperatureLevel);
+	char temperature[20];
+	sprintf(temperature,"%s%d","temperature : ",temperatureLevel);
 
 	char json[100];
 	sprintf(json, "\"{%s,%s,%s,%s}\"", wind,water,humidity,temperature);
@@ -420,35 +421,21 @@ static void read_wind(){
 	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
 
 	if(state != currentState){
-	    //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
 		hz += 1;
 		state = currentState;
-	    //ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
-	    //osDelay(2000);
-	} else {
-		//ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
 	}
-	if(milli < HAL_GetTick() - 1000){
-		int i = (hz/4);
-		windSpeed = i;
-		char finalData[100];
-		char part1[35] = "AT+USOST=0,\"142.93.104.222\",9000,";
-		char str[3];
-		sprintf(str, "\"%d\"", windSpeed);
+	if(windChrono < HAL_GetTick() - 1000){
+		windSpeed = hz;
+		windChrono = HAL_GetTick();
 
-		char size[2];
-		sprintf(size,"%d",sizeof(str)/sizeof(char)-2);
-		sprintf(finalData,"%s%s,%s",part1,size,str);
-
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, finalData);
-		send_cmd_modem(finalData,'A');
-		send_cmd_modem("AT+USORF=0,255",'A');
-
-		//sprintf(str, "%d", i);
-		//ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
-		milli = HAL_GetTick();
+		char size[3];
+		sprintf(size,"%d",windSpeed);
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, size);
 		hz = 0;
 	}
+	//char size[3];
+	//sprintf(size,"%d",hz);
+	//ssLoggingPrint(ESsLoggingLevel_Info, 0, size);
 
 }
 static void read_water(){
@@ -464,9 +451,9 @@ static void read_water(){
 		change = 0;
 	}
 	//One hour 3600000
-	if(milli < HAL_GetTick() - 12500){
+	if(waterChrono < HAL_GetTick() - 12500){
 		waterLevel = 0;
-		milli = HAL_GetTick();
+		waterChrono = HAL_GetTick();
 	}
 }
 #if 0
