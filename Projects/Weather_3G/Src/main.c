@@ -83,6 +83,7 @@ volatile uint32_t counter = 0;
 uint32_t milli;
 int16_t windSpeed = 0;
 int16_t waterLevel = 0;
+int32_t change = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 void LedTask(void const * argument);
@@ -421,43 +422,17 @@ static void read_wind(){
 
 }
 static void read_water(){
-
 	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
 
-	if(state != currentState){
-
-	    //HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
-		waterLevel += 1;
-		state = currentState;
-		char str[16];
-				sprintf(str, "%d", waterLevel);
-	    ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
-	    //osDelay(2000);
+	if(currentState != 1){
+		change += 1;
+		if(change == 1){
+			ssLoggingPrint(ESsLoggingLevel_Info, 0, "Change");
+		}
 	} else {
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
+		change = 0;
 	}
-	/*if(milli < HAL_GetTick() - 3600000){
-		int i = (hz/4);
-		windSpeed = i;
-		char finalData[100];
-		char part1[35] = "AT+USOST=0,\"142.93.104.222\",9000,";
-		char str[3];
-		sprintf(str, "\"%d\"", windLevel);
-
-		char size[2];
-		sprintf(size,"%d",sizeof(str)/sizeof(char)-2);
-		sprintf(finalData,"%s%s,%s",part1,size,str);
-
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, finalData);
-		send_cmd_modem(finalData,'A');
-		send_cmd_modem("AT+USORF=0,255",'A');
-
-		//sprintf(str, "%d", i);
-		//ssLoggingPrint(ESsLoggingLevel_Info, 0, str);
-		milli = HAL_GetTick();
-		hz = 0;
-	}*/
-
+	//ssLoggingPrint(ESsLoggingLevel_Info, 0, (char)change);
 }
 
 //uint32_t millis(){
