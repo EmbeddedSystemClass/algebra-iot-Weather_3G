@@ -275,7 +275,7 @@ void DhtTask(void const * argument)
 	ssLoggingPrint(ESsLoggingLevel_Info, 0, "dhtTask started");
 	for(;;)
 	  {
-		osDelay (5000);
+		osDelay (2000);
 		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start loop");
 		 read_dht();
 		 char size[3];
@@ -612,6 +612,7 @@ static void read_dht(){
 	rh_low = humidityLevel/10;
 	rh_high = humidityLevel%10;
 	osDelay(1000);
+	//Code from arduino
 	//GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 	//void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
 	/*dhtData[0] = dhtData[1] = dhtData[2] = dhtData[3] = dhtData[4] = 0;
