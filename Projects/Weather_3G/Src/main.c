@@ -81,13 +81,14 @@ int32_t hz;
 GPIO_PinState state;
 uint32_t windChrono;
 uint32_t waterChrono;
+uint32_t sendData;
 volatile uint32_t counter	= 0;
 int16_t windSpeed			= 0;
 int16_t waterLevel			= 0;
 int32_t change				= 0;
 int16_t humidityLevel		= 0;
 int16_t temperatureLevel	= 0;
-int32_t sendData			= 0;
+
 
 /* Private function prototypes -----------------------------------------------*/
 void LedTask(void const * argument);
@@ -103,8 +104,9 @@ static int modem_all();
 static void send_cmd_modem(char* , char);
 static void read_wind();
 static void read_water();
+static void read_dht();
+static void read_raw();
 static void send_sensor();
-//uint32_t millis();
 
 
 //#define modem_send(command, �) atparser_send(modem_parser_handle, command, ##__VA_ARGS__)
@@ -141,8 +143,8 @@ int main(void)
   //osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
   //ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
   
-  //osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 1024);
-  //watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
+  osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 1024);
+  watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
   osThreadDef(echoTask, EchoTask, osPriorityLow, 0, 1024);
   echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
@@ -206,11 +208,11 @@ void WatchdogTask(void const * argument)
 	//}
   //ssLoggingPrint(ESsLoggingLevel_Info, 0, "WatchdogTask started");
   /* Infinite loop */
-  /*for(;;)
+  for(;;)
   {
     HAL_GPIO_TogglePin(BSP_WD_GPIO_PORT, BSP_WD_PIN);
     osDelay(100);
-  }*/
+  }
 }
 
 
@@ -218,14 +220,16 @@ void EchoTask(void const * argument)
 {
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
   //modem_start();
-  state = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
-  windChrono = HAL_GetTick();
-  //sendData = milli;
+  //state = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
+  //windChrono = HAL_GetTick();
+  //sendData = windChrono;
   for(;;)
   {
-	  read_wind();
+	  read_raw();
+	  //read_dht();
+	  //read_wind();
 	  //read_water();
-	  //if(sendData < HAL_GetTick() - 10000){
+	//  if(sendData < HAL_GetTick() - 10000){
 		//  send_sensor();
 		  //sendData = HAL_GetTick();
 	  //}
@@ -326,7 +330,7 @@ static void send_sensor(){
 	sprintf(wind,"%s%d","wind : ",windSpeed);
 
 	char water[20];
-	sprintf(water,"%s%d","water : ",waterLevel);
+	sprintf(water,"%s%d","precipitation : ",waterLevel);
 
 	char humidity[20];
 	sprintf(humidity,"%s%d","humidity : ", humidityLevel);
@@ -454,6 +458,23 @@ static void read_water(){
 	if(waterChrono < HAL_GetTick() - 12500){
 		waterLevel = 0;
 		waterChrono = HAL_GetTick();
+	}
+}
+static void read_dht(){
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+
+	if(currentState){
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, "True");
+	} else {
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
+	}
+}
+static void read_raw(){
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+	if(currentState){
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, "True");
+	} else {
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
 	}
 }
 #if 0
