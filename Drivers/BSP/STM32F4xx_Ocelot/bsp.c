@@ -311,18 +311,18 @@ static void BSP_GPIO_Configure(void)
   GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : PC2 */
-	GPIO_InitStruct.Pin = GPIO_PIN_2;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-	GPIO_InitStruct.Pull = GPIO_PULLUP;
-	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+	/*Configure GPIO pin : PE2 */
+  //GPIO_InitStruct.Pin = GPIO_PIN_2;               // pin 2
+  //GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;     // output open drain
+  //GPIO_InitStruct.Pull = GPIO_PULLUP;             // activate pull-up resistor
+  //HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);         // port C
 
 	/*Configure GPIO pin : PC3 */
 	GPIO_InitStruct.Pin = GPIO_PIN_3;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-	/*Configure GPIO pin : PC3 */
+	/*Configure GPIO pin : PC2 */
 	GPIO_InitStruct.Pin = GPIO_PIN_2;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);

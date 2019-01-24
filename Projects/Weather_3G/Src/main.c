@@ -72,9 +72,14 @@
 int32_t stdin_uart_handle;
 int32_t stdout_uart_handle;
 int32_t stderr_uart_handle;
+
 osThreadId ledTaskHandle;
 osThreadId watchdogTaskHandle;
 osThreadId echoTaskHandle;
+osThreadId windTaskHandle;
+osThreadId waterTaskHandle;
+osThreadId dhtTaskHandle;
+
 static int32_t modem_uart_handle = -1;
 ATCmdParser *modem_parser_handle = NULL;
 int32_t hz;
@@ -89,13 +94,34 @@ int32_t change				= 0;
 int16_t humidityLevel		= 0;
 int16_t temperatureLevel	= 0;
 
+uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
+uint16_t sum;
+int temp_low, temp_high, rh_low, rh_high;
+char temp_char1[2], temp_char2, rh_char1[2], rh_char2;
+uint8_t check = 0;
+GPIO_InitTypeDef GPIO_InitStruct;
+uint8_t dhtData[5];
+
 
 /* Private function prototypes -----------------------------------------------*/
 void LedTask(void const * argument);
 void WatchdogTask(void const * argument);
 void stdio_init(void);
 void EchoTask(void const * argument);
+void WindTask(void const * argument);
+void WaterTask(void const * argument);
 
+void DhtTask(void const * argument);
+uint8_t read_data (void);
+void check_response (void);
+void DHT22_start (void);
+void set_gpio_output (void);
+void set_gpio_input (void);
+
+
+
+static uint32_t expectPulseHigh();
+static uint32_t expectPulseLow();
 static void modem_init();
 static void modem_power_up();
 static bool modem_attach();
@@ -142,12 +168,21 @@ int main(void)
   /* definition and creation of defaultTask */
   //osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
   //ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
-  
+
   osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 1024);
   watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
-  osThreadDef(echoTask, EchoTask, osPriorityLow, 0, 1024);
-  echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
+  //osThreadDef(echoTask, EchoTask, osPriorityLow, 0, 1024);
+  //echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
+
+  //osThreadDef(windTask, WindTask, osPriorityLow, 0, 1024);
+  //windTaskHandle = osThreadCreate(osThread(windTask), NULL);
+
+  //osThreadDef(waterTask, WaterTask, osPriorityLow, 0, 1024);
+  //waterTaskHandle = osThreadCreate(osThread(waterTask), NULL);
+
+  osThreadDef(dhtTask, DhtTask, osPriorityLow, 0, 1024);
+  dhtTaskHandle = osThreadCreate(osThread(dhtTask), NULL);
 
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start OS.");
 
@@ -216,23 +251,58 @@ void WatchdogTask(void const * argument)
 }
 
 
+void WindTask(void const * argument)
+{
+	windChrono = HAL_GetTick();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "WindTask started");
+	for(;;)
+	  {
+		 read_wind();
+	  }
+}
+void WaterTask(void const * argument)
+{
+	waterChrono = HAL_GetTick();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "WaterTask started");
+	for(;;)
+	  {
+		 read_water();
+	  }
+}
+void DhtTask(void const * argument)
+{
+	//waterChrono = HAL_GetTick();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "dhtTask started");
+	for(;;)
+	  {
+		osDelay (5000);
+		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start loop");
+		 read_dht();
+		 char size[3];
+		 sprintf(size,"%d",humidityLevel);
+		 ssLoggingPrint(ESsLoggingLevel_Info, 0, size);
+
+		 sprintf(size,"%d",temperatureLevel);
+		 ssLoggingPrint(ESsLoggingLevel_Info, 0, size);
+	  }
+}
 void EchoTask(void const * argument)
 {
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "EchoTask started");
-  //modem_start();
+  modem_start();
   //state = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
   //windChrono = HAL_GetTick();
-  //sendData = windChrono;
+  sendData = HAL_GetTick();;
   for(;;)
   {
-	  read_raw();
+	  //read_raw();
 	  //read_dht();
 	  //read_wind();
 	  //read_water();
-	//  if(sendData < HAL_GetTick() - 10000){
-		//  send_sensor();
-		  //sendData = HAL_GetTick();
-	  //}
+	  if(sendData < HAL_GetTick() - 10000){
+		  send_sensor();
+		  sendData = HAL_GetTick();
+	  }
 	  //osDelay(100);
   }
 }
@@ -327,16 +397,16 @@ static bool modem_attach()
 }
 static void send_sensor(){
 	char wind[20];
-	sprintf(wind,"%s%d","wind : ",windSpeed);
+	sprintf(wind,"%s%d","'wind' : ",windSpeed);
 
 	char water[20];
-	sprintf(water,"%s%d","precipitation : ",waterLevel);
+	sprintf(water,"%s%d","'precipitation' : ",waterLevel);
 
 	char humidity[20];
-	sprintf(humidity,"%s%d","humidity : ", humidityLevel);
+	sprintf(humidity,"%s%d","'humidity' : ", humidityLevel);
 
 	char temperature[20];
-	sprintf(temperature,"%s%d","temperature : ",temperatureLevel);
+	sprintf(temperature,"%s%d","'temperature' : ",temperatureLevel);
 
 	char json[100];
 	sprintf(json, "\"{%s,%s,%s,%s}\"", wind,water,humidity,temperature);
@@ -422,7 +492,7 @@ static int modem_all(){
 }
 static void read_wind(){
 
-	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
 
 	if(state != currentState){
 		hz += 1;
@@ -443,7 +513,7 @@ static void read_wind(){
 
 }
 static void read_water(){
-	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_3);
 
 	if(currentState != 1){
 		change += 1;
@@ -460,23 +530,196 @@ static void read_water(){
 		waterChrono = HAL_GetTick();
 	}
 }
-static void read_dht(){
-	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+void DHT22_start (void)
+{
+	set_gpio_output ();  // set the pin as output
+	HAL_GPIO_WritePin (GPIOE, GPIO_PIN_2, 0);   // pull the pin low
+	osDelay(500);   // wait for 500us
+	HAL_GPIO_WritePin (GPIOE, GPIO_PIN_2, 1);   // pull the pin high
+	osDelay(30);   // wait for 30us
+	set_gpio_input ();   // set as input
+}
 
-	if(currentState){
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, "True");
-	} else {
-		ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
+void check_response (void)
+{
+	osDelay(40);
+	if (!(HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)))
+	{
+		osDelay(80);
+		if ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2))) check = 1;
 	}
+	while ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)));   // wait for the pin to go low
+}
+
+uint8_t read_data (void)
+{
+	uint8_t i,j;
+	for (j=0;j<8;j++)
+	{
+		while (!(HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)));   // wait for the pin to go high
+		osDelay(40);   // wait for 40 us
+		if ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)) == 0)   // if the pin is low
+		{
+			i&= ~(1<<(7-j));   // write 0
+		}
+		else i|= (1<<(7-j));  // if the pin is high, write 1
+		while ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)));  // wait for the pin to go low
+	}
+	return i;
+}
+void set_gpio_output (void)
+{
+	/*Configure GPIO pin output: PA1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+}
+
+void set_gpio_input (void)
+{
+	/*Configure GPIO pin input: PA1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+}
+
+static void read_dht(){
+	DHT22_start ();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "1");
+	check_response ();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "2");
+	Rh_byte1 = read_data ();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "3");
+	Rh_byte2 = read_data ();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "4");
+	Temp_byte1 = read_data ();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "5");
+	Temp_byte2 = read_data ();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "6");
+	sum = read_data();
+	ssLoggingPrint(ESsLoggingLevel_Info, 0, "7");
+	//if (sum == (Rh_byte1+Rh_byte2+Temp_byte1+Temp_byte2))
+	{
+		temperatureLevel = ((Temp_byte1<<8)|Temp_byte2);
+		humidityLevel = ((Rh_byte1<<8)|Rh_byte2);
+	}
+
+	temp_low = temperatureLevel/10;
+	temp_high = temperatureLevel%10;
+
+	rh_low = humidityLevel/10;
+	rh_high = humidityLevel%10;
+	osDelay(1000);
+	//GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+	//void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState);
+	/*dhtData[0] = dhtData[1] = dhtData[2] = dhtData[3] = dhtData[4] = 0;
+
+	// start the reading process.
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET);
+	osDelay(250);
+
+	 // First set data line low for 20 milliseconds.
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_RESET);
+	osDelay(20);
+
+	uint32_t cycles[80];
+	  {
+	    // End the start signal by setting data line high for 40 microseconds.
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_2, GPIO_PIN_SET);
+	    osDelay(40);
+
+	    // Now start reading the data line to get the value from the DHT sensor.
+	    //pinMode(_pin, INPUT_PULLUP);
+	    osDelay(10);  // Delay a bit to let sensor pull data line low.
+
+	    // First expect a low signal for ~80 microseconds followed by a high signal
+	    // for ~80 microseconds again.
+	    if (expectPulseLow() == 0) {
+	    	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Timeout waiting for start signal low pulse.");
+	    }
+	    if (expectPulseHigh() == 0){
+	    	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Timeout waiting for start signal high pulse.");
+	    }
+
+	    // Now read the 40 bits sent by the sensor.  Each bit is sent as a 50
+	    // microsecond low pulse followed by a variable length high pulse.  If the
+	    // high pulse is ~28 microseconds then it's a 0 and if it's ~70 microseconds
+	    // then it's a 1.  We measure the cycle count of the initial 50us low pulse
+	    // and use that to compare to the cycle count of the high pulse to determine
+	    // if the bit is a 0 (high state cycle count < low state cycle count), or a
+	    // 1 (high state cycle count > low state cycle count). Note that for speed all
+	    // the pulses are read into a array and then examined in a later step.
+	    for (int i=0; i<80; i+=2) {
+	      cycles[i]   = expectPulseLow();
+	      cycles[i+1] = expectPulseHigh();
+	    }
+	    for (int i=0; i<40; ++i) {
+	    	uint32_t lowCycles  = cycles[2*i];
+	    	uint32_t highCycles = cycles[2*i+1];
+	    	if ((lowCycles == 0) || (highCycles == 0)) {
+	    		ssLoggingPrint(ESsLoggingLevel_Info, 0, "Timeout waiting for pulse.");
+	    	}
+	    	dhtData[i/8] <<= 1;
+	    	// Now compare the low and high cycle times to see if the bit is a 0 or 1.
+	    	if (highCycles > lowCycles) {
+	    		// High cycles are greater than 50us low cycle count, must be a 1.
+	    		dhtData[i/8] |= 1;
+	    	}
+	    } // Timing critical code is now complete.
+	    if (dhtData[4] == ((dhtData[0] + dhtData[1] + dhtData[2] + dhtData[3]) & 0xFF)) {
+	    	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Checksum done");
+	    }
+	    else {
+	    	ssLoggingPrint(ESsLoggingLevel_Info, 0, "Checksum fail.");
+	    }
+	    humidityLevel = 0;
+	    humidityLevel = dhtData[0];
+	    //humidityLevel *= 256;
+	    //humidityLevel += dhtData[1];
+	    //humidityLevel *= 0.1;
+
+	    temperatureLevel = dhtData[2] & 0x7F;
+	    //temperatureLevel *= 256;
+		temperatureLevel += dhtData[3];
+		//temperatureLevel *= 0.1;
+		if (dhtData[2] & 0x80) {
+			temperatureLevel *= -1;
+		}
+	  }*/
 }
 static void read_raw(){
-	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_2);
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
 	if(currentState){
 		ssLoggingPrint(ESsLoggingLevel_Info, 0, "True");
 	} else {
 		ssLoggingPrint(ESsLoggingLevel_Info, 0, "False");
 	}
 }
+static uint32_t expectPulseHigh(){
+	uint32_t maxCycles = 1000;
+	uint32_t count = 0;
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
+	while (!HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) {
+	    if (count++ >= maxCycles) {
+	    	return 0; // Exceeded timeout, fail.
+	    }
+	}
+	return count;
+}
+static uint32_t expectPulseLow(){
+	uint32_t maxCycles = 1000;
+	uint32_t count = 0;
+	GPIO_PinState currentState = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
+	while (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2)) {
+	    if (count++ >= maxCycles) {
+	    	return 0; // Exceeded timeout, fail.
+	    }
+	}
+	return count;
+}
+
 #if 0
 static void template()
 {
