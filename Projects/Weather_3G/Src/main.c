@@ -532,20 +532,20 @@ static void read_water(){
 }
 void DHT22_start (void)
 {
-	set_gpio_output ();  // set the pin as output
+	//set_gpio_output ();  // set the pin as output
 	HAL_GPIO_WritePin (GPIOE, GPIO_PIN_2, 0);   // pull the pin low
-	osDelay(500);   // wait for 500 ms
+	osDelay(1);   // wait for 1 ms
 	HAL_GPIO_WritePin (GPIOE, GPIO_PIN_2, 1);   // pull the pin high
-	osDelay(30);   // wait for 30 ms
-	set_gpio_input ();   // set as input
+	//osDelay(30);   // wait for 30 ms
+	//set_gpio_input ();   // set as input
 }
 
 void check_response (void)
 {
-	osDelay(40);
+	//osDelay(40);
 	if (!(HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)))
 	{
-		osDelay(80);
+		osDelay(1);
 		if ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2))) check = 1;
 	}
 	while ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)));   // wait for the pin to go low
@@ -567,23 +567,24 @@ uint8_t read_data (void)
 	}
 	return i;
 }
-void set_gpio_output (void)
+
+/*void set_gpio_output (void)
 {
-	/*Configure GPIO pin output: PA1 */
+	//Configure GPIO pin output: PA1
   GPIO_InitStruct.Pin = GPIO_PIN_2;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-}
+}*/
 
-void set_gpio_input (void)
+/*void set_gpio_input (void)
 {
-	/*Configure GPIO pin input: PA1 */
+	//Configure GPIO pin input: PA1
   GPIO_InitStruct.Pin = GPIO_PIN_2;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-}
+}*/
 
 static void read_dht(){
 	DHT22_start ();

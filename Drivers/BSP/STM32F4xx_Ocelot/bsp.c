@@ -312,10 +312,10 @@ static void BSP_GPIO_Configure(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 	/*Configure GPIO pin : PE2 */
-  //GPIO_InitStruct.Pin = GPIO_PIN_2;               // pin 2
-  //GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;     // output open drain
-  //GPIO_InitStruct.Pull = GPIO_PULLUP;             // activate pull-up resistor
-  //HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);         // port C
+  GPIO_InitStruct.Pin = GPIO_PIN_2;               // pin 2
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;     // output open drain
+  GPIO_InitStruct.Pull = GPIO_PULLUP;             // activate pull-up resistor
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);         // port E
 
 	/*Configure GPIO pin : PC3 */
 	GPIO_InitStruct.Pin = GPIO_PIN_3;
