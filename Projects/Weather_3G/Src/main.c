@@ -534,9 +534,9 @@ void DHT22_start (void)
 {
 	set_gpio_output ();  // set the pin as output
 	HAL_GPIO_WritePin (GPIOE, GPIO_PIN_2, 0);   // pull the pin low
-	osDelay(500);   // wait for 500us
+	osDelay(500);   // wait for 500 ms
 	HAL_GPIO_WritePin (GPIOE, GPIO_PIN_2, 1);   // pull the pin high
-	osDelay(30);   // wait for 30us
+	osDelay(30);   // wait for 30 ms
 	set_gpio_input ();   // set as input
 }
 
@@ -557,7 +557,7 @@ uint8_t read_data (void)
 	for (j=0;j<8;j++)
 	{
 		while (!(HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)));   // wait for the pin to go high
-		osDelay(40);   // wait for 40 us
+		osDelay(40);   // wait for 40 ms
 		if ((HAL_GPIO_ReadPin (GPIOE, GPIO_PIN_2)) == 0)   // if the pin is low
 		{
 			i&= ~(1<<(7-j));   // write 0
