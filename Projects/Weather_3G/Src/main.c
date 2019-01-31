@@ -87,12 +87,15 @@ GPIO_PinState state;
 uint32_t windChrono;
 uint32_t waterChrono;
 uint32_t sendData;
+uint32_t resetWater			= 3600000;
+uint32_t resetWind			= 1000;
 volatile uint32_t counter	= 0;
 int16_t windSpeed			= 0;
 int16_t waterLevel			= 0;
 int32_t change				= 0;
 int16_t humidityLevel		= 0;
 int16_t temperatureLevel	= 0;
+
 
 uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
 uint16_t sum;
@@ -498,7 +501,7 @@ static void read_wind(){
 		hz += 1;
 		state = currentState;
 	}
-	if(windChrono < HAL_GetTick() - 1000){
+	if(windChrono < HAL_GetTick() - resetWind){
 		windSpeed = hz;
 		windChrono = HAL_GetTick();
 
@@ -525,7 +528,7 @@ static void read_water(){
 		change = 0;
 	}
 	//One hour 3600000
-	if(waterChrono < HAL_GetTick() - 12500){
+	if(waterChrono < HAL_GetTick() - resetWater){
 		waterLevel = 0;
 		waterChrono = HAL_GetTick();
 	}
