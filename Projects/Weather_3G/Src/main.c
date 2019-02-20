@@ -87,7 +87,7 @@ GPIO_PinState state;
 uint32_t windChrono;
 uint32_t waterChrono;
 uint32_t sendData;
-uint32_t resetWater			= 3600000;
+uint32_t resetWater			= 30000;
 uint32_t resetWind			= 1000;
 volatile uint32_t counter	= 0;
 int16_t windSpeed			= 0;
@@ -175,17 +175,17 @@ int main(void)
   osThreadDef(watchdogTask, WatchdogTask, osPriorityHigh, 0, 1024);
   watchdogTaskHandle = osThreadCreate(osThread(watchdogTask), NULL);
 
-  //osThreadDef(echoTask, EchoTask, osPriorityLow, 0, 1024);
-  //echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
+  osThreadDef(echoTask, EchoTask, osPriorityLow, 0, 1024);
+  echoTaskHandle = osThreadCreate(osThread(echoTask), NULL);
 
-  //osThreadDef(windTask, WindTask, osPriorityLow, 0, 1024);
-  //windTaskHandle = osThreadCreate(osThread(windTask), NULL);
+  osThreadDef(windTask, WindTask, osPriorityLow, 0, 1024);
+  windTaskHandle = osThreadCreate(osThread(windTask), NULL);
 
-  //osThreadDef(waterTask, WaterTask, osPriorityLow, 0, 1024);
-  //waterTaskHandle = osThreadCreate(osThread(waterTask), NULL);
+  osThreadDef(waterTask, WaterTask, osPriorityLow, 0, 1024);
+  waterTaskHandle = osThreadCreate(osThread(waterTask), NULL);
 
-  osThreadDef(dhtTask, DhtTask, osPriorityLow, 0, 1024);
-  dhtTaskHandle = osThreadCreate(osThread(dhtTask), NULL);
+  //osThreadDef(dhtTask, DhtTask, osPriorityLow, 0, 1024);
+  //dhtTaskHandle = osThreadCreate(osThread(dhtTask), NULL);
 
   ssLoggingPrint(ESsLoggingLevel_Info, 0, "Start OS.");
 
@@ -523,6 +523,9 @@ static void read_water(){
 		if(change == 1){
 			waterLevel += 1;
 			ssLoggingPrint(ESsLoggingLevel_Info, 0, "Change");
+			char size[3];
+			sprintf(size,"%d",waterLevel);
+			ssLoggingPrint(ESsLoggingLevel_Info, 0, size);
 		}
 	} else {
 		change = 0;
